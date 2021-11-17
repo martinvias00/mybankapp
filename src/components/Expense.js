@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import method from "../localStorageManager";
 import Input from "./Input";
 import ExpenseView from "./Expense/ExpenseView";
-const Expense = ({ accounts }) => {
+const Expense = ({ accounts, transacs }) => {
   const borderInputColor = "#4caf50";
 
   const corporateExpense = [
@@ -43,13 +43,15 @@ const Expense = ({ accounts }) => {
       total: etotal,
     });
   }, [eitem, edesc, epurpose, etotal]);
+  const handledel = (id) => {
+    const newitem = listOfItems.filter((itemx) => itemx.ItemID !== id);
+    setlistOfItems(newitem);
+  };
   const renderBody = () => {
     if (listOfItems !== null) {
       return listOfItems.map((temp, index) => {
-        const rowId = `k${temp.item[0]}${index}qwqhu`;
-
         return (
-          <tr key={index} id={rowId}>
+          <tr key={index} id={temp.ItemID}>
             <td>{temp.item}</td>
             <td>{temp.description}</td>
             <td>{temp.purpose}</td>
@@ -57,8 +59,9 @@ const Expense = ({ accounts }) => {
             <td>
               <button
                 onClick={(e) => {
+                  console.log(listOfItems);
                   e.preventDefault();
-                  document.querySelector(`#${rowId}`).innerHTML = "";
+                  handledel(temp.ItemID);
                 }}
                 style={deleteStyle}
               >
@@ -87,10 +90,12 @@ const Expense = ({ accounts }) => {
       setdescError("");
       setpurposeError("");
       settotalError("");
+      const ranId = `x${Math.floor(Math.random() * 1000 + 20)}x`;
+      let newitem = { ...items, ItemID: ranId };
       if (listOfItems === null) {
-        setlistOfItems([items]);
+        setlistOfItems([newitem]);
       } else {
-        setlistOfItems([...templist, items]);
+        setlistOfItems([...templist, newitem]);
       }
     }
     seteitem("");
@@ -151,7 +156,7 @@ const Expense = ({ accounts }) => {
                 <option value="" disabled selected hidden>
                   Choose an Account...
                 </option>
-                {method.getLocalaccounts().map((item) => (
+                {accounts.map((item) => (
                   <option
                     key={item.id}
                     value={[item.name, item.accountNo, item.balance]}
@@ -278,7 +283,9 @@ const Expense = ({ accounts }) => {
           </div>
         </div>
       )}
-      {actionbtn === "bdgtExp" && <ExpenseView listOfItems={listOfItems} />}
+      {actionbtn === "bdgtExp" && (
+        <ExpenseView listOfItems={listOfItems} accounts={accounts} />
+      )}
     </div>
   );
 };

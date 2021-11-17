@@ -45,7 +45,7 @@ const EntryForm = ({
             text="Balance"
             name="balance"
             type="text"
-            value={balance === 0 ? "" : balance}
+            value={balance < 0 ? 0 : balance}
             setState={setbalance}
             isdiable={isDisable}
             errorMessage={balerror}

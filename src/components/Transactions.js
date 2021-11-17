@@ -4,14 +4,8 @@ import Deposit from "./Transactions/Deposit";
 import Tmoney from "./Transactions/Tmoney";
 import AccountCard from "./Transactions/AccountCard";
 import method from "../localStorageManager";
-const Transactions = ({ setaccounts, settransacs }) => {
+const Transactions = ({ accounts, setaccounts, settransacs }) => {
   const [action, setaction] = useState("deposit");
-  const [newAccounts2, setnewAccounts2] = useState(method.getLocalaccounts());
-  useEffect(() => {
-    setaccounts(newAccounts2);
-  }, [newAccounts2, setaccounts]);
-
-  const [listacc, setlistacc] = useState(() => method.getLocalaccounts());
   const [name1, setname1] = useState("");
 
   const [accountno1, setaccountno1] = useState("");
@@ -20,20 +14,16 @@ const Transactions = ({ setaccounts, settransacs }) => {
   const [amount, setamount] = useState(0);
 
   useEffect(() => {
-    setlistacc(method.getLocalaccounts());
-  }, [amount, balance1]);
+    setaccounts(method.getLocalaccounts());
+  }, [amount, balance1, setaccounts]);
 
   useEffect(() => {
-    const newobj = listacc.filter((item) => item.accountNo === accountno1);
+    const newobj = accounts.filter((item) => item.accountNo === accountno1);
     if (newobj.length !== 0) {
       setname1(newobj[0].name);
       setbalance(newobj[0].balance);
     }
-  }, [accountno1, listacc, amount, setbalance]);
-
-  useEffect(() => {
-    setaction(action);
-  }, [action]);
+  }, [accountno1, accounts, amount]);
 
   const [error, seterror] = useState("");
   const negativebal = "Amount cannot be negative";
@@ -84,6 +74,15 @@ const Transactions = ({ setaccounts, settransacs }) => {
               setaction(e.target.value);
               e.preventDefault();
             }}
+            style={{
+              width: "100px",
+              height: "30px",
+              display: "flex",
+              justifyContent: "center",
+              border: "1px green solid",
+              borderRadius: "10px",
+              textAlign: "center",
+            }}
           >
             <option key={1} value={"deposit"}>
               Deposit
@@ -104,12 +103,13 @@ const Transactions = ({ setaccounts, settransacs }) => {
           balance1={balance1}
           setaccountno1={setaccountno1}
           amount={amount}
-          newAccounts2={newAccounts2}
-          listacc={listacc}
+          listacc={accounts}
         />
       </div>
       {action === "withdraw" && (
         <Withdraw
+          accounts={accounts}
+          setaccounts={setaccounts}
           setamount={setamount}
           accountno1={accountno1}
           amount={amount}
@@ -120,6 +120,8 @@ const Transactions = ({ setaccounts, settransacs }) => {
       )}
       {action === "deposit" && (
         <Deposit
+          accounts={accounts}
+          setaccounts={setaccounts}
           amount={amount}
           setamount={setamount}
           accountno1={accountno1}
@@ -128,11 +130,12 @@ const Transactions = ({ setaccounts, settransacs }) => {
       )}
       {action === "sendmoney" && (
         <Tmoney
+          accounts={accounts}
           amount={amount}
           setamount={setamount}
           accountno2={accountno1}
           setaccountno2={setaccountno1}
-          setnewAccounts2={setnewAccounts2}
+          setaccounts={setaccounts}
           setbalance={setbalance}
           balance1={balance1}
           settransacs={settransacs}

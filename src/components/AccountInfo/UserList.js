@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineCheckSquare } from "react-icons/ai";
-import method from "../../localStorageManager";
-const UserList = ({ OnlistView, setOnlistView, accounts2 }) => {
-  const [accounts, setaccounts] = useState(() => method.getLocalaccounts());
-  const [searchTerm, setSearchTerm] = useState("");
-  const [result, setresult] = useState([]);
 
-  useEffect(() => {
-    setaccounts(() => method.getLocalaccounts());
-  }, [accounts2]);
-  // ====
+const UserList = ({ setOnlistView, accounts2 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [result, setresult] = useState(accounts2);
 
   useEffect(() => {
     if (searchTerm === "") {
-      setaccounts(method.getLocalaccounts());
+      setresult(accounts2);
+      // setresult(...accounts2);
     } else {
-      const results = accounts.filter((person) =>
+      const results = accounts2.filter((person) =>
         person.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setresult(results);
     }
-  }, [searchTerm, accounts]);
+  }, [searchTerm, accounts2]);
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -42,8 +37,8 @@ const UserList = ({ OnlistView, setOnlistView, accounts2 }) => {
   // ====
   const renderBody = () => {
     return (
-      accounts &&
-      accounts.map(({ id, name, username, email, accountNo, balance }) => {
+      result &&
+      result.map(({ id, name, username, email, accountNo, balance }) => {
         return (
           <tr key={id}>
             <td>

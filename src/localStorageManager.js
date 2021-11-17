@@ -62,7 +62,6 @@ const method = {
   },
   updateLocaltransacs: function (transacs) {
     const newItem = method.getLocaltransacs();
-    console.log(newItem, transacs);
     newItem.unshift(transacs);
     method.setLocaltransacs(newItem);
   },

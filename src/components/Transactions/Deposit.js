@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import method from "../../localStorageManager";
 import Input from "../Input";
 
-const Deposit = ({ setamount, accountno1, amount, settransacs }) => {
+const Deposit = ({
+  setamount,
+  accountno1,
+  amount,
+  settransacs,
+  accounts,
+  setaccounts,
+}) => {
   const [error, seterror] = useState("");
   useEffect(() => {
     if (/[-]+/.test(amount)) {
@@ -42,11 +49,11 @@ const Deposit = ({ setamount, accountno1, amount, settransacs }) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          const newobjt = method
-            .getLocalaccounts()
-            .filter((item) => item.accountNo === accountno1);
+          const newobjt = accounts.filter(
+            (item) => item.accountNo === accountno1
+          );
           if (newobjt.length !== 0) {
-            const oldList = method.getLocalaccounts();
+            const oldList = accounts;
             const list1 = newobjt[0];
             if (parseInt(amount) > 0) {
               const newbalance =
@@ -68,13 +75,14 @@ const Deposit = ({ setamount, accountno1, amount, settransacs }) => {
                 }
               });
               method.setLocalaccounts(xlist);
+              setaccounts(xlist);
 
               const date1 = new Date().toDateString();
               const newtrasac = {
                 employeeId: method.getLocalcurr().id,
                 accountNo: newobjt[0].accountNo,
                 transferto: "",
-                name: newobjt[0].name,
+                username: newobjt[0].username,
                 refNo: Math.floor(Math.random() * 500) + 5012 + "MWX",
                 date: date1,
                 type: "deposit",

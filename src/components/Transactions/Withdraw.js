@@ -1,6 +1,8 @@
 import method from "../../localStorageManager";
 import Input from "../Input";
 const Withdraw = ({
+  accounts,
+  setaccounts,
   setamount,
   accountno1,
   amount,
@@ -45,11 +47,11 @@ const Withdraw = ({
         onClick={(e) => {
           e.preventDefault();
           if (error === "") {
-            const newobjt = method
-              .getLocalaccounts()
-              .filter((item) => item.accountNo === accountno1);
+            const newobjt = accounts.filter(
+              (item) => item.accountNo === accountno1
+            );
             if (newobjt.length !== 0) {
-              const oldList = method.getLocalaccounts();
+              const oldList = accounts;
               const list1 = newobjt[0];
 
               if (oldList.balance < amount) {
@@ -76,12 +78,13 @@ const Withdraw = ({
                   }
                 });
                 method.setLocalaccounts(xlist);
+                setaccounts(xlist);
 
                 const date1 = new Date().toDateString();
                 const newtrasac = {
                   employeeId: method.getLocalcurr().id,
                   accountNo: newobjt[0].accountNo,
-                  name: newobjt[0].name,
+                  username: newobjt[0].username,
                   transferto: "",
                   refNo: Math.floor(Math.random() * 500) + 5012 + "MWX",
                   date: date1,
@@ -90,6 +93,7 @@ const Withdraw = ({
                 };
                 method.updateLocaltransacs(newtrasac);
                 settransacs(method.getLocaltransacs());
+
                 setamount(0);
               }
             }

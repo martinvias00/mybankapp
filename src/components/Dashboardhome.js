@@ -34,28 +34,23 @@ const Dashboardhome = ({
   const [onChart, setonChart] = useState("all");
   const [transacs, settransacs] = useState(() => method.getLocaltransacs());
   const [accounts, setaccounts] = useState(() => method.getLocalaccounts());
-  const [templist, settemplist] = useState([]);
   useEffect(() => {
     let temp = [];
-    accounts.forEach((account) => {
+    accounts.forEach((item) => {
       const result = transacs.filter(
-        (transac) => account.accountNo === transac.accountNo
+        (transac) => transac.accountNo === item.accountNo
       );
-      const newobjt = [...result, account.username];
+      const newobjt = [...result, item.username];
       temp.push(newobjt);
     });
-    settemplist(temp);
+
+    setChartList(temp);
   }, [accounts, transacs]);
 
-  useEffect(() => {
-    setChartList(templist);
-  }, [templist]);
   const [userActivityList, setuserActivityList] = useState([]);
   const [count, setcount] = useState(0);
-
-  let list = [];
-  const setlist = () => {
-    list = ChartList.map((chartdata) => {
+  const setlist = (clist) => {
+    const listx = clist.map((chartdata) => {
       let a = 0,
         b = 0,
         c = 0,
@@ -79,17 +74,12 @@ const Dashboardhome = ({
       const num = [za, zb, zc, chartdata[chartdata.length - 1]];
       return num;
     });
-
-    setuserActivityList(list);
-    setcount(0);
-    console.log(list);
+    return listx;
   };
-
   useEffect(() => {
-    if (userActivityList.length !== 0) {
-      console.log(userActivityList[count], count);
-    }
-  }, [userActivityList, count]);
+    const newlist = setlist(ChartList);
+    setuserActivityList(newlist);
+  }, [ChartList]);
   return (
     <div>
       <header style={headerStyle}>
@@ -196,7 +186,7 @@ const Dashboardhome = ({
                   onChange={(e) => {
                     setonChart(e.target.value);
                     if (e.target.value === "users activity") {
-                      setlist();
+                      setlist(ChartList);
                     }
                     e.preventDefault();
                   }}
@@ -233,6 +223,7 @@ const Dashboardhome = ({
                         }}
                       >
                         <UserChart userActivityList={userActivityList[count]} />
+                        {console.log(userActivityList[count])}
                         <div>
                           <button
                             onClick={(e) => {
@@ -364,10 +355,18 @@ const Dashboardhome = ({
           />
         ))}
       {actionbtn === "T" && (
-        <Transactions setaccounts={setaccounts} settransacs={settransacs} />
+        <Transactions
+          accounts={accounts}
+          setaccounts={setaccounts}
+          settransacs={settransacs}
+        />
       )}
       {actionbtn === "M" && (
-        <Expense actionbtn={actionbtn} accounts={accounts} />
+        <Expense
+          actionbtn={actionbtn}
+          accounts={accounts}
+          transacs={transacs}
+        />
       )}
       <footer></footer>
     </div>

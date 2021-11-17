@@ -2,28 +2,23 @@ import React, { useState, useEffect } from "react";
 import method from "../../localStorageManager";
 import Input from "../Input";
 const Tmoney = ({
+  accounts,
   setamount,
   accountno2,
   amount,
-  setnewAccounts2,
+  setaccounts,
   balance1,
   settransacs,
 }) => {
-  const [newAccounts3, setnewAccounts3] = useState([]);
-
-  useEffect(() => {
-    setnewAccounts2(newAccounts3);
-  }, [newAccounts3, setnewAccounts2]);
   const [accountno1, setaccountno1] = useState("");
   const [name1, setname1] = useState("");
-  const listacc = method.getLocalaccounts();
 
   useEffect(() => {
-    const newobj = listacc.filter((item) => item.accountNo === accountno1);
+    const newobj = accounts.filter((item) => item.accountNo === accountno1);
     if (newobj.length !== 0) {
       setname1(newobj[0].name);
     }
-  }, [accountno1, listacc]);
+  }, [accountno1, accounts]);
   const [hasError, sethasError] = useState(false);
   const [error, seterror] = useState("");
 
@@ -52,7 +47,7 @@ const Tmoney = ({
     } else {
       seterror("");
     }
-  }, [amount, hasError, balance1, accountno2,name1]);
+  }, [amount, hasError, balance1, accountno2, name1]);
 
   return (
     <div
@@ -72,22 +67,30 @@ const Tmoney = ({
       }}
     >
       <h1>Send money</h1>
-      <label htmlFor="accountno1">reciever:</label>
+      <span style={{ paddingBottom: "20px" }}>reciever:</span>
       {
         <select
           name="accountno1"
-          defaultValue={() => method.getLocalaccounts()[0]}
+          defaultValue={() => accounts[0]}
           onChange={(e) => {
             setaccountno1(e.target.value);
             e.preventDefault();
           }}
+          style={{
+            width: "250px",
+            display: "flex",
+
+            justifyContent: "center",
+            border: "1px green solid",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
         >
-          {method
-            .getLocalaccounts()
+          {accounts
             .filter((item) => item.accountNo !== accountno2)
             .map((item) => (
               <option key={item.accountNo} value={item.accountNo}>
-                {item.accountNo}
+                {item.accountNo} /{item.name}
               </option>
             ))}
         </select>
@@ -114,14 +117,15 @@ const Tmoney = ({
       <button
         onClick={(e) => {
           e.preventDefault();
-          const list = method.getLocalaccounts();
+          const list = accounts;
+          console.log(accounts);
           const sender = list.filter(
             (item) => item.accountNo === accountno2
           )[0];
           const reciever = list.filter(
             (item) => item.accountNo === accountno1
           )[0];
-          console.log(hasError);
+
           if (
             sender === undefined ||
             reciever === undefined ||
@@ -136,9 +140,9 @@ const Tmoney = ({
             seterror(balancezero);
           } else {
             sethasError(false);
+
             const senderbal = parseInt(sender.balance) - parseInt(amount);
             const recieverbal = parseInt(reciever.balance) + parseInt(amount);
-
             const sendbal = {
               id: sender.id,
               name: sender.name,
@@ -166,7 +170,7 @@ const Tmoney = ({
               }
             });
             method.setLocalaccounts(ylist);
-            console.log(method.getLocalaccounts());
+            setaccounts(method.getLocalaccounts());
             const xlist = method.getLocalaccounts().map((item) => {
               if (item.id === reciever.id) {
                 return recievebal;
@@ -175,13 +179,12 @@ const Tmoney = ({
               }
             });
             method.setLocalaccounts(xlist);
-            console.log(method.getLocalaccounts());
-            setnewAccounts3(method.getLocalaccounts());
+            setaccounts(method.getLocalaccounts());
             const date1 = new Date().toDateString();
             const newtrasac = {
               employeeId: method.getLocalcurr().id,
               accountNo: sender.accountNo,
-              name: sender.name,
+              username: sender.username,
               transferto: reciever.accountNo,
               refNo: Math.floor(Math.random() * 10000) + 5112 + "MWX",
               date: date1,
@@ -191,7 +194,7 @@ const Tmoney = ({
             const newtrasac2 = {
               employeeId: method.getLocalcurr().id,
               accountNo: reciever.accountNo,
-              name: reciever.name,
+              username: reciever.username,
               recievefrom: sender.accountNo,
               refNo: Math.floor(Math.random() * 10000) + 5112 + "MWX",
               date: date1,

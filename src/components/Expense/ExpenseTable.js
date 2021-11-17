@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import method from "../../localStorageManager";
 
-const ExpenseTable = ({ accNo, expense, listOfItems }) => {
-  const [expenses, setexpenses] = useState(() => method.getLocalexpense());
+const ExpenseTable = ({ accNo, expense, listOfItems, setexpense }) => {
 
   const [editFormData, seteditFormData] = useState({
     expenseno: "",
@@ -40,11 +38,14 @@ const ExpenseTable = ({ accNo, expense, listOfItems }) => {
   const handleCancelClick = () => {
     setEditexpenseno(null);
   };
-  const handleDeleteClick = (expensesno) => {
-    const newExpense = [...expenses];
-    const index = expenses.findIndex((temp) => temp.expenseno === expensesno);
-    newExpense.splice(index, 1);
-    setexpenses(newExpense);
+  const handleDeleteClick = (ItemID) => {
+    const newitem = expense.filter((itemx) => itemx.ItemID !== ItemID);
+    // setlistOfItems(newitem);
+    // const newExpense = [...expenses];
+    // const index = expenses.findIndex((temp) => temp.expenseno === expensesno);
+    // newExpense.splice(index, 1);
+
+    setexpense(newitem);
   };
   return (
     <div>
@@ -68,8 +69,7 @@ const ExpenseTable = ({ accNo, expense, listOfItems }) => {
           </thead>
 
           <tbody>
-            {console.log(expenses)}
-            {expenses
+            {expense
               // .filter((temp) => temp.accountNo === accNo)
               .map((temp) => {
                 return (
@@ -173,7 +173,7 @@ const ExpenseTable = ({ accNo, expense, listOfItems }) => {
                           </button>
                           <button
                             type="button"
-                            onClick={() => handleDeleteClick(temp.expenseno)}
+                            onClick={() => handleDeleteClick(temp.ItemID)}
                             style={{
                               width: "50px",
                               height: "30px",

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import method from "../../localStorageManager";
 import ExpenseTable from "./ExpenseTable";
 import ExpenseChartForIndividual from "./ExpenseChartForIndividual";
-const ExpenseView = ({ listOfItems }) => {
-  const [ChartList, setChartList] = useState([0, 0]);
-  const [accounts] = useState(() => method.getLocalaccounts());
+const ExpenseView = ({ listOfItems, accounts }) => {
+  const [ChartList, setChartList] = useState([]);
   const [AccountInfo, setAccountInfo] = useState({
     accNo: "",
     name: "",
@@ -22,19 +21,19 @@ const ExpenseView = ({ listOfItems }) => {
     accountNo: "",
     balance: 0,
   });
-  const expense = () => method.getLocalexpense();
+  const [expense, setexpense] = useState(method.getLocalexpense());
 
-  const handleSelectChange = (account) => {
+  const handleSelectChange = (accNo2) => {
+    setaccNo(accNo2);
+    setaccountSelected(accNo2);
     let x = 0;
-    const userDetails = method
-      .getLocalaccounts()
-      .filter((acc) => acc.accountNo === account)[0];
-    const userexpense = method
-      .getLocalexpense()
-      .filter((item) => item.accountNo === account)
+    const userDetails = accounts.filter((acc) => acc.accountNo === accNo2)[0];
+    const userexpense = expense
+      .filter((item) => item.accountNo === accNo2)
       .map((items) => {
         return items.total;
       });
+
     if (userexpense.length > 1) {
       x = userexpense.reduce((x, y) => parseInt(x) + parseInt(y));
     } else if (userexpense.length === 1) {
@@ -53,17 +52,41 @@ const ExpenseView = ({ listOfItems }) => {
     };
     if (userexpense) {
       newInfo = {
-        accNo: account,
+        accNo: accNo2,
         name: userDetails.name,
         balance: userDetails.balance,
-        accExpense: userexpense,
+        accExpense: x,
         balwithExpense: expenseAmount,
       };
     }
 
-    setChartList([userexpense, userDetails.balance, account]);
+    setChartList([x, userDetails.balance, accNo2]);
     setAccountInfo(newInfo);
   };
+  useEffect(() => {
+    const userDetails = accounts.filter(
+      (acc) => acc.accountNo === expense.accountNo
+    );
+
+    const userexpense = method
+      .getLocalexpense()
+      .filter((item) => item.accountNo === expense.accountNo)
+      .map((items) => {
+        return items.total;
+      });
+
+    const y = expense.total + userDetails.balance;
+    setChartList([userexpense, y, userexpense.accountNo]);
+    let newInfo = {
+      accNo: expense.accountNo,
+      name: expense.name,
+      balance: userDetails.balance,
+      accExpense: userexpense,
+      balwithExpense: 0,
+    };
+    setAccountInfo(newInfo);
+  }, [expense, accounts]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div
@@ -104,8 +127,6 @@ const ExpenseView = ({ listOfItems }) => {
               onChange={(e) => {
                 e.preventDefault();
                 handleSelectChange(e.target.value);
-                setaccNo(e.target.value);
-                setaccountSelected(e.target.value);
               }}
               style={{
                 width: "250px",
@@ -172,7 +193,10 @@ const ExpenseView = ({ listOfItems }) => {
                 marginBottom: "20px",
               }}
             >
-              <ExpenseChartForIndividual ChartList={ChartList} />
+              <ExpenseChartForIndividual
+                ChartList={ChartList}
+                expense={expense}
+              />
             </div>
           </div>
           <ExpenseTable
@@ -180,6 +204,7 @@ const ExpenseView = ({ listOfItems }) => {
             accNo={accNo}
             expense={expense}
             listOfItems={listOfItems}
+            setexpense={setexpense}
           />
         </div>
       </div>

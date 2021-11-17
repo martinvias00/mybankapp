@@ -10,11 +10,19 @@ const AccountCard = ({ name1, setname1, balance1, setaccountno1, listacc }) => {
             setaccountno1(e.target.value);
             e.preventDefault();
           }}
+          style={{
+            width: "200px",
+            height: "20px",
+            display: "flex",
+            justifyContent: "center",
+            border: "1px green solid",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
         >
           {listacc.map((item) => (
             <option key={item.accountNo} value={item.accountNo}>
-              {item.accountNo}
-              {item.name}
+              {item.accountNo} / {item.name}
             </option>
           ))}
         </select>
