@@ -22,7 +22,6 @@ const ExpenseChart = ({ ChartList }) => {
     let zb = Math.round(100 * (b / sum));
     return [za, zb];
   }).filter((x) =>x[0]);
-  console.log(datalist);
   let a = 0,
     b = 0;
   for (let i = 0; i < datalist.length; i++) {

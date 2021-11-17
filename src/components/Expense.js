@@ -59,7 +59,6 @@ const Expense = ({ accounts, transacs }) => {
             <td>
               <button
                 onClick={(e) => {
-                  console.log(listOfItems);
                   e.preventDefault();
                   handledel(temp.ItemID);
                 }}
@@ -274,6 +273,8 @@ const Expense = ({ accounts, transacs }) => {
                       };
                       method.updateLocalexpense(xvar);
                       setlistOfItems(null);
+                      setename("");
+                      setbalance("");
                     });
                 }
               }}

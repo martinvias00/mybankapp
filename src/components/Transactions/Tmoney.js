@@ -118,7 +118,6 @@ const Tmoney = ({
         onClick={(e) => {
           e.preventDefault();
           const list = accounts;
-          console.log(accounts);
           const sender = list.filter(
             (item) => item.accountNo === accountno2
           )[0];

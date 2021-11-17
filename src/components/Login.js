@@ -19,7 +19,6 @@ const Login = ({ setcurrfunc, setuserState, onRegister, setonRegister }) => {
     const newobjects = users.filter((key) => key.username === username);
 
     if (newobjects.length !== 0) {
-      console.log(newobjects);
       setusernameError("");
 
       if (newobjects[0].password === password) {

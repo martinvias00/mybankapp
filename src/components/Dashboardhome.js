@@ -223,7 +223,6 @@ const Dashboardhome = ({
                         }}
                       >
                         <UserChart userActivityList={userActivityList[count]} />
-                        {console.log(userActivityList[count])}
                         <div>
                           <button
                             onClick={(e) => {
@@ -277,7 +276,6 @@ const Dashboardhome = ({
                   {onChart === "expense" && (
                     <ExpenseChart ChartList={ChartList} />
                   )}
-                  {console.log(ChartList)}
                 </div>
               </div>
             </div>

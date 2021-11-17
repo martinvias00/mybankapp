@@ -20,7 +20,6 @@ const UserChart = ({ userActivityList }) => {
         // marginRight: "20px",
       }}
     >
-      {console.log(x, y, z, name)}
       <div className="chart">
         <div
           className="bar"

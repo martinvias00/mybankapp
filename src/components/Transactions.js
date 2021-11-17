@@ -34,8 +34,6 @@ const Transactions = ({ accounts, setaccounts, settransacs }) => {
     if (/[-]+/.test(amount)) {
       seterror(negativebal);
     } else if (parseInt(balance1) < parseInt(amount)) {
-      console.log(balance1);
-      console.log(amount);
       seterror(amountOutofBounce);
     } else {
       seterror("");

@@ -12,7 +12,7 @@ const method = {
     localStorage.setItem(expense, JSON.stringify(data.expense));
   },
   setLocaluser: function (user) {
-    console.log(user);
+
     localStorage.setItem(users, JSON.stringify(user));
   },
   setLocaltransacs: function (transacs) {
@@ -27,9 +27,9 @@ const method = {
 
   addLocalaccounts: function (account) {
     const newItem = method.getLocalaccounts();
-    console.log(newItem);
+
     newItem.push(account);
-    console.log(newItem);
+  
     method.setLocalaccounts(newItem);
   },
   addLocaltransacs: function (transacs) {
@@ -89,7 +89,7 @@ const method = {
     return JSON.parse(localStorage.getItem(expense));
   },
   updateLocalexpense: function (expense) {
-    console.log(expense);
+
     const newItem = method.getLocalexpense();
 
     newItem.push(expense);

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const ExpenseTable = ({ accNo, expense, listOfItems, setexpense }) => {
-
   const [editFormData, seteditFormData] = useState({
     expenseno: "",
     accountNo: "",

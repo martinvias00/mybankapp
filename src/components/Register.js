@@ -25,7 +25,6 @@ const Register = ({ onRegister, setonRegister }) => {
     };
     if (!ifError(newAccount)) {
       old.push(newAccount);
-      console.log(old);
       method.setLocaluser(old);
       setcomplete(true);
       setTimeout(() => {

@@ -186,6 +186,7 @@
   border: 1px whitesmoke solid;
   background-color: white;
   border-top-left-radius: 10px;
+  z-index: 1;
 }
 
 .ExpenseContainer {
@@ -253,7 +254,7 @@ button:disabled {
   justify-content: center;
 }
 .ChartWrapper {
-  width: 60.65%;
+  width: 55.65vw;
   height: 70vh;
   display: flex;
   flex-direction: column;
@@ -265,16 +266,15 @@ button:disabled {
   box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.18);
 }
 .asideLastActivities {
+  width: 500px;
   height: 70vh;
   margin-left: 20px;
-  margin-right: 100px;
+  margin-right: 70px;
   background-color: white;
   border-radius: 10px;
   box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.18);
   overflow-y: scroll;
   font-size: 1em;
-
-  margin-right: 20px;
 }
 @media (min-width: 640px) {
   main {
