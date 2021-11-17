@@ -1,0 +1,92 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 10;
+}
+.dialog {
+  background-color: white;
+}
+.dialog__content {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: white;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.dialog__title {
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: black;
+  background-color: white;
+}
+.dialog__description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-bottom: 1rem;
+  color: gray;
+  background-color: white;
+}
+.dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: white;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.dialog__cancel {
+  border-radius: 0.75rem;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+.dialog__cancel:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.dialog__cancel {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dialog__cancel {
+  color: rgba(17, 24, 39, 1);
+  user-select: none;
+}
+.dialog__cancel:hover {
+  color: rgba(55, 65, 81, 1);
+}
+.dialog__confirm {
+  background-color: rgba(254, 226, 226, 1);
+  border-radius: 0.75rem;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+.dialog__confirm:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.dialog__confirm {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.dialog__confirm {
+  background-color: green;
+  color: white;
+  user-select: none;
+}

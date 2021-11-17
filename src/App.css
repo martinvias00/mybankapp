@@ -1,9 +1,15 @@
+* {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 10vmin;
   pointer-events: none;
 }
 
@@ -24,10 +30,6 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +37,285 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#title {
+  text-align: center;
+}
+
+#accounts {
+  border-collapse: collapse;
+  font-size: 1.5em;
+}
+
+#accounts td,
+#accounts th {
+  padding: 26.5px;
+}
+
+#accounts tr:hover {
+  background-color: #ddd;
+}
+
+#accounts th {
+  text-align: center;
+  background-color: #4caf50;
+  color: white;
+}
+
+.opration {
+  text-align: center;
+}
+
+.button {
+  border: none;
+  outline: none;
+  font-size: 11px;
+  font-family: "Quicksand", sans-serif;
+  color: #f44336;
+  padding: 3px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #f44336;
+  background-color: transparent;
+}
+
+.button:active {
+  border: 1px solid blue;
+}
+
+.chart {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(100, 1fr);
+  grid-column-gap: 15px;
+  grid-row-gap: 3px;
+  height: 90%;
+  width: 90%;
+}
+
+[class*="bar"] {
+  border-radius: 0;
+  transition: all 0.6s ease;
+  background-color: #7ac27d;
+  border-top: 1px solid green;
+  border-right: 1px solid green;
+  border-left: 1px solid green;
+  border-radius: 5px;
+  grid-row-start: 1;
+  box-sizing: border-box;
+  grid-row-end: 90;
+  text-align: center;
+
+  margin-top: auto;
+}
+[class*="bar"] span {
+  margin: 10px;
+  position: relative;
+  top: -20px;
+  color: #4caf50;
+  font-size: 12px;
+  font-weight: bold;
+}
+[class*="bar"] label {
+  width: auto;
+  bottom: -23px;
+  color: #4caf50;
+  font-size: 12px;
+  font-weight: bold;
+  margin: auto;
+
+  left: 0;
+  right: 0;
+}
+
+.lable {
+  background-color: #fff;
+  text-align: center;
+}
+.lable span {
+  background-color: #eaf6fd;
+  border: 1px solid #4caf50;
+  text-align: center;
+  padding: 0px 20px;
+  margin-right: 10px;
+}
+
+.animated {
+  animation-duration: 50s;
+  animation-fill-mode: both;
+  animation-name: bounceError;
+}
+
+@keyframes bounceError {
+  0%,
+  40%,
+  60%,
+  100% {
+    transform: translateX(20px);
+  }
+  60% {
+    transform: translateX(3px);
+  }
+}
+
+.ExpenseHeadform {
+  width: 96vw;
+  margin-right: 15px;
+  margin-bottom: 20px;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.ItemTable {
+  width: 96vw;
+  margin-right: 15px;
+}
+
+.ExpenseNavBtns {
+  width: 80%;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 20px;
+}
+.ExpenseNavBtns button {
+  height: 30px;
+  color: #4caf50;
+  width: 200px;
+  border: 1px whitesmoke solid;
+  background-color: white;
+  border-top-left-radius: 10px;
+}
+
+.ExpenseContainer {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+}
+
+.navitems {
+  line-height-step: 40px;
+  margin-right: 1rem;
+}
+.navitems::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 0;
+  background: transparent;
+  transition: width 0.7s ease, background-color 0.5s ease;
+}
+
+.navitems:hover:after {
+  width: 100%;
+  background-color: #4caf50;
+}
+
+input:focus + label {
+  color: #4caf50;
+}
+
+input:disabled {
+  cursor: not-allowed;
+}
+input {
+  margin-top: 30px;
+}
+label {
+  position: absolute;
+}
+.navbtns {
+  display: flex;
+  flex-wrap: wrap;
+}
+main {
+  text-align: left;
+  width: 90vw;
+  margin: 20px;
+}
+.dashboardContainer {
+  width: 100%;
+  height: 500px;
+  display: flex;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+.SelectbuttonWrapper {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+.ChartWrapper {
+  width: 60.65%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-right: 20px;
+  border-radius: 10px;
+  box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.18);
+}
+.asideLastActivities {
+  height: 70vh;
+  margin-left: 20px;
+  margin-right: 100px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.18);
+  overflow-y: scroll;
+  font-size: 1em;
+
+  margin-right: 20px;
+}
+@media (min-width: 640px) {
+  main {
+    width: 100vw;
+    height: auto;
+  }
+  .dashboardContainer {
+    width: 100vw;
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .ChartWrapper {
+    flex: 1;
+  }
+}
+@media (min-width: 768px) {
+  main {
+    width: 100vw;
+    height: auto;
+  }
+  .dashboardContainer {
+    width: 100vw;
+    flex-wrap: wrap;
+    height: auto;
+  }
+}
+
+@media (min-width: 375px) {
+  .dashboardContainer {
+    width: 100vw;
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .ChartWrapper {
+    width: 89%;
+  }
+}
+@media (min-width: 1024px) {
+}
+@media (min-width: 1280px) {
+}
+@media (min-width: 1536px) {
 }

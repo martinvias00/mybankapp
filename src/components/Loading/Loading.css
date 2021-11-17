@@ -1,0 +1,31 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 10;
+}
+.dialog {
+  background-color: transparent;
+  border-radius: 0.75rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10rem;
+  max-width: 100%;
+  width: 24rem;
+}
+
+@media (min-width: 640px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 1024px) {
+}
+@media (min-width: 1280px) {
+}
+@media (min-width: 1536px) {
+}
