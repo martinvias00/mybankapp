@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-
-const ExpenseTable = ({ accNo, expense, listOfItems, setexpense }) => {
+import method from "../../localStorageManager";
+const ExpenseTable = ({
+  setChartList,
+  accounts,
+  setAccountInfo,
+  expense,
+  setexpense,
+}) => {
   const [editFormData, seteditFormData] = useState({
     expenseno: "",
     accountNo: "",
@@ -38,13 +44,56 @@ const ExpenseTable = ({ accNo, expense, listOfItems, setexpense }) => {
     setEditexpenseno(null);
   };
   const handleDeleteClick = (ItemID) => {
-    const newitem = expense.filter((itemx) => itemx.ItemID !== ItemID);
-    // setlistOfItems(newitem);
-    // const newExpense = [...expenses];
-    // const index = expenses.findIndex((temp) => temp.expenseno === expensesno);
-    // newExpense.splice(index, 1);
+    const itemTodel = expense.filter((temp) => temp.ItemID === ItemID)[0];
+    let x = 0;
+    const userDetails = accounts.filter(
+      (acc) => acc.accountNo === itemTodel.accountNo
+    )[0];
+    console.log(userDetails);
+    const userexpense = expense
+      .filter((item) => item.accountNo === itemTodel.accountNo)
+      .map((items) => {
+        return items.total;
+      });
 
-    setexpense(newitem);
+    if (userexpense.length > 1) {
+      x = userexpense.reduce((x, y) => parseInt(x) + parseInt(y));
+    } else if (userexpense.length === 1) {
+      x = userexpense;
+    } else {
+      x = 0;
+    }
+    const newbal = parseInt(userDetails.balance) + parseInt(itemTodel.total);
+    const newExpense =
+      x > itemTodel
+        ? parseInt(x) - parseInt(itemTodel.total)
+        : parseInt(itemTodel.total) - parseInt(x);
+    const newexpenseAmount =
+      newbal > newExpense
+        ? parseInt(newbal) - parseInt(newExpense)
+        : parseInt(newExpense) - parseInt(newbal);
+    let newInfo = {
+      accNo: "",
+      name: "",
+      balance: 0,
+      accExpense: 0,
+      balwithExpense: 0,
+    };
+    if (userexpense) {
+      newInfo = {
+        accNo: userDetails.accountNo,
+        name: userDetails.name,
+        balance: newbal,
+        accExpense: newExpense,
+        balwithExpense: newexpenseAmount,
+      };
+    }
+    console.log(newExpense, newbal, userDetails.accountNo);
+    setChartList([newExpense, newbal, userDetails.accountNo]);
+    setAccountInfo(newInfo);
+    const newitems = expense.filter((acc) => acc.ItemID !== ItemID);
+    method.setLocalexpense(newitems);
+    setexpense(newitems);
   };
   return (
     <div>
@@ -66,11 +115,11 @@ const ExpenseTable = ({ accNo, expense, listOfItems, setexpense }) => {
               <th>Actions</th>
             </tr>
           </thead>
-
           <tbody>
-            {expense
+            {console.log(expense)}
+            {expense &&
               // .filter((temp) => temp.accountNo === accNo)
-              .map((temp) => {
+              expense.map((temp) => {
                 return (
                   <>
                     {Editexpenseno === temp.expenseno ? (

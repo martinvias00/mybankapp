@@ -18,7 +18,7 @@ const Expense = ({ accounts, transacs }) => {
   const [descError, setdescError] = useState("");
   const [purposeError, setpurposeError] = useState("");
   const [actionbtn, setactionbtn] = useState("bdgtExp");
-
+  const [expense, setexpense] = useState(method.getLocalexpense());
   const [ename, setename] = useState("");
   const [eitem, seteitem] = useState("");
   const [eid, seteid] = useState("");
@@ -102,6 +102,16 @@ const Expense = ({ accounts, transacs }) => {
     setpurpose("");
     settotal("");
   };
+  const [listofexpense, setlistofexpense] = useState([]);
+  useEffect(() => {
+    const newlist = accounts.map((item) => {
+      const id = item.accountNo;
+      const listexpens = expense.filter((temp) => temp.accountNo === id);
+      const expes = { id: id, list: listexpens };
+      return expes;
+    });
+    setlistofexpense(newlist);
+  }, [expense, accounts]);
   return (
     <div>
       <div className="ExpenseNavBtns">
@@ -257,14 +267,16 @@ const Expense = ({ accounts, transacs }) => {
                   setnameError("Account name cant be Empty..");
                 } else {
                   setnameError("");
-
                   listOfItems &&
                     listOfItems.forEach((temp) => {
                       let xvar = {
                         expenseno:
-                          "xc" + (Math.random() * 450145 + 5454) + "kqx",
+                          "xc" +
+                          (Math.floor(Math.random() * 450145) + 5454) +
+                          "kqx",
+                        accountNo: eid,
+                        ItemID: temp.ItemID,
                         name: ename,
-                        id: eid,
                         date: edate,
                         item: temp.item,
                         description: temp.description,
@@ -272,10 +284,12 @@ const Expense = ({ accounts, transacs }) => {
                         total: temp.total,
                       };
                       method.updateLocalexpense(xvar);
+
                       setlistOfItems(null);
                       setename("");
                       setbalance("");
                     });
+                  setexpense(method.getLocalexpense());
                 }
               }}
             >
@@ -285,7 +299,12 @@ const Expense = ({ accounts, transacs }) => {
         </div>
       )}
       {actionbtn === "bdgtExp" && (
-        <ExpenseView listOfItems={listOfItems} accounts={accounts} />
+        <ExpenseView
+          setexpense={setexpense}
+          expense={expense}
+          accounts={accounts}
+          listofexpense={listofexpense}
+        />
       )}
     </div>
   );
